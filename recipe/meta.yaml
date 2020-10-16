@@ -10,10 +10,11 @@ source:
   sha256: c0a92c26705486e107362588acb9561c44e33ef0b24dd25ddc8ac6ea80821d86
   patches:
     - patches/0001-Fix-for-parse_requirements.patch
+    - patches/0002-Fix-for-ParseRequirements-in-pip-v20.patch
 
 build:
   skip: True  # [not win]
-  number: 1
+  number: 2
   script: "{{ PYTHON }} -m pip install ."
 
 requirements:
