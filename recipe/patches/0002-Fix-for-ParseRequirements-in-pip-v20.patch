@@ -1,0 +1,44 @@
+From 0830455c1f885f1fa96489232bc56b7986a821c8 Mon Sep 17 00:00:00 2001
+From: Setu Shah <setu4993@yahoo.co.in>
+Date: Thu, 15 Oct 2020 22:25:59 -0700
+Subject: [PATCH 2/2] Fix for ParseRequirements in pip v20+
+
+---
+ setup.py | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 44ff31d..6f22fb0 100644
+--- a/setup.py
++++ b/setup.py
+@@ -16,10 +16,23 @@ def from_here(relative_path):
+     return path.join(path.dirname(__file__), relative_path)
+ 
+ 
+-requirements_txt = list(map(str, map(
+-    attrgetter("req"),
+-    parse_requirements(from_here("requirements.txt"), session="")
+-)))
++try:  # for pip < 20
++    requirements_txt = list(
++        map(
++            str,
++            map(
++                attrgetter("req"),
++                parse_requirements(from_here("requirements.txt"), session=""),
++            ),
++        )
++    )
++except AttributeError:  # for pip >= 20
++    requirements_txt = list(
++        map(
++            attrgetter("requirement"),
++            parse_requirements(from_here("requirements.txt"), session=""),
++        )
++    )
+ 
+ setup(
+     name="win10toast",
+-- 
+2.28.0
+
