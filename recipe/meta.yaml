@@ -14,7 +14,7 @@ source:
 
 build:
   skip: True  # [not win]
-  number: 6
+  number: 7
   script: "{{ PYTHON }} -m pip install ."
 
 requirements:
